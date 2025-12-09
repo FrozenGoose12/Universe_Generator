@@ -184,9 +184,9 @@ screen.fill((0, 0, 0))
 CosmosGenerator(55)
 # SpiralGalaxyGenerator(100, 3 * math.pi, 3, 1, .3, .02, (136, 201, 249), 70, (random.randint(0, screen_info.current_w), random.randint(0, screen_info.current_h)))
 SpiralGalaxyGenerator(500, 4 * math.pi, random.uniform(0, math.pi * 2), 5, 1, .3, .02, (136, 201, 249), 3, (500,500))
-SpiralGalaxyGenerator(200, 3 * math.pi, random.uniform(0, math.pi * 2), 5, 1, 1, .02, (180, 160, 255), 10, (1000,700))
-SpiralGalaxyGenerator(100, 3 * math.pi, random.uniform(0, math.pi * 2), 5, 1, .4, .02, (210, 230, 255), 15,  (111,340))
-SpiralGalaxyGenerator(30, 2 * math.pi, random.uniform(0, math.pi * 2), 5, 1, .1, .02, (210, 230, 0), 20, (700,500))
+# SpiralGalaxyGenerator(200, 3 * math.pi, random.uniform(0, math.pi * 2), 5, 1, 1, .02, (180, 160, 255), 10, (1000,700))
+# SpiralGalaxyGenerator(100, 3 * math.pi, random.uniform(0, math.pi * 2), 5, 1, .4, .02, (210, 230, 255), 15,  (111,340))
+# SpiralGalaxyGenerator(30, 2 * math.pi, random.uniform(0, math.pi * 2), 5, 1, .1, .02, (210, 230, 0), 20, (700,500))
 
 
 #bigger radius needs bigger turns
@@ -200,5 +200,6 @@ while True:
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             pygame.quit()
             sys.exit()
+
 
 
