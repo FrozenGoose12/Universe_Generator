@@ -1,4 +1,15 @@
 import math, pygame, sys, random
+
+def exit():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            pygame.quit()
+            sys.exit()
+
+
 def CosmosGenerator(star_density):
     WHITE = (255, 255, 255)
     YELLOW_WHITE = (255, 234, 202)
@@ -47,7 +58,7 @@ def CosmosGenerator(star_density):
     pygame.display.flip()
 
 
-def NebulaGenerator(center, nebula_radius, clouds, max_red, max_green, max_blue, gas_alpha):
+def NebulaGenerator(center, nebula_radius, clouds, red_range = (0, 255), green_range = (0, 255), blue_range = (0, 255), gas_alpha = 50):
     cloud_list = []
     starsize = 4
     WHITE = (255, 255, 255)
@@ -59,10 +70,16 @@ def NebulaGenerator(center, nebula_radius, clouds, max_red, max_green, max_blue,
         y = center[1] + math.sin(angle) * distance
 
         color = (
-            random.randint(0, max_red),
-            random.randint(0, max_green),
-            random.randint(0, max_blue)
+            random.randint(red_range[0], red_range[1]),
+            random.randint(green_range[0], green_range[1]),
+            random.randint(blue_range[0], blue_range[1])
         )
+
+        # color = (
+        #     random.randint(140, 200),
+        #     random.randint(60, 250),
+        #     random.randint(180, 250)
+        # )
 
         radius = random.randint(10, 35)
 
@@ -133,14 +150,16 @@ def SpiralGalaxyGenerator(max_radius = 1000, turns = 3 * math.pi, bigtheta = ran
     gas_surface.set_alpha(gas_alpha)
     pygame.draw.circle(gas_surface, gas_color, (gas_radius, gas_radius), gas_radius)
 
+
     primary_color = 230 + (core_constant / 100 * 25)
     if primary_color > 255:
         primary_color = 255
 
 
+
     while True:
         while theta < turns:
-
+            exit()
             c = random.randint(1, 10)
             if c >= 5:
                 color = (primary_color, primary_color, primary_color)
@@ -230,28 +249,26 @@ clock.tick(60)
 screen.fill((0, 0, 0))
 
 if __name__ == "__main__":
-    CosmosGenerator(55)
-    # SpiralGalaxyGenerator(200, 3 * math.pi, random.uniform(0, math.pi * 2), 5, 1, 1, .02, (180, 160, 255), 10, (1000,700))
-    # SpiralGalaxyGenerator(100, 3 * math.pi, random.uniform(0, math.pi * 2), 5, 1, .4, .02, (210, 230, 255), 15,  (111,340))
-    # SpiralGalaxyGenerator(30, 2 * math.pi, random.uniform(0, math.pi * 2), 2, 1, .05, .02, (210, 230, 0), 20, (700,500))
-    NebulaGenerator((500, 300), 300, 400, 200, 100, 255, 20)
-    NebulaGenerator((1000, 600), 600, 1000, 0, 100, 180, 15)
-    NebulaGenerator((20, 200), 100, 100, 50, 160, 250, 10)
-    NebulaGenerator((1299, 100), 400, 670, 250, 167, 220, 30)
+    CosmosGenerator(60)
+    NebulaGenerator((500, 300), 300, 400, (0, 200), (0, 100), (0, 255), 20)
+    NebulaGenerator((1000, 600), 600, 1000, (0, 100), (0, 10), (0, 15))
+    NebulaGenerator((20, 200), 100, 100, (0, 50), (0, 60), (0, 250), 10)
+    NebulaGenerator((1299, 100), 400, 670, (0, 250), (0, 67), (0, 220), 30)
+    NebulaGenerator((500, 400), 200, 300, (0, 75), (0, 86), (0, 103), 50)
 
-    SpiralGalaxyGenerator(500, 5 * math.pi, .5 , 3, 1, .3, .02, (150, 60, 200), 2, (500,650))
+    SpiralGalaxyGenerator(200, 3 * math.pi, random.uniform(0, math.pi * 2), 3, 1, 1, .02, (180, 160, 255), 10, (1000,500))
+    SpiralGalaxyGenerator(100, 3 * math.pi, random.uniform(0, math.pi * 2), 5, 1, .4, .02, (210, 230, 255), 15,  (111,340))
+    SpiralGalaxyGenerator(30, 2 * math.pi, random.uniform(0, math.pi * 2), 2, 1, .05, .02, (255, 220, 180), 20, (700,500))
+
+
+    SpiralGalaxyGenerator(400, 4 * math.pi, random.uniform(0, 2 * math.pi) , 3, 1, .3, .02, (70, 10, 200), 10, (450, 400))
     SpiralGalaxyGenerator(200, 3 * math.pi, 1 , 2, 1, .2, .02, (170, 102, 240), 2, (800,200))
-    #bigger radius needs bigger turns
+    # #bigger radius needs bigger turns
     # bigtheta recommendation = random.uniform(0, math.pi * 2)
 
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                sys.exit()
+        exit()
+
 
 
 
