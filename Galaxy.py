@@ -134,7 +134,8 @@ def SpiralGalaxyGenerator(max_radius = 1000, turns = 3 * math.pi, bigtheta = ran
     pygame.draw.circle(gas_surface, gas_color, (gas_radius, gas_radius), gas_radius)
 
     primary_color = 230 + (core_constant / 100 * 25)
-
+    if primary_color > 255:
+        primary_color = 255
 
 
     while True:
@@ -251,5 +252,6 @@ if __name__ == "__main__":
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 sys.exit()
+
 
 
