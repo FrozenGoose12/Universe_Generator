@@ -1,3 +1,8 @@
+# Copyright (c) 2025 FrozenGoose12
+# Permission is granted to use and modify this file for personal
+# and educational purposes only. Commercial use is strictly prohibited
+# without written permission from the author.
+
 import math, pygame, sys, random
 
 def exit():
@@ -268,6 +273,7 @@ if __name__ == "__main__":
 
     while True:
         exit()
+
 
 
 
