@@ -14,6 +14,43 @@ def exit_check():
             pygame.quit()
             sys.exit()
 
+def Shooting_Star(Shooting_Star_rng):
+    star_list = []
+
+    x = Shooting_Star_rng.randint(0, screen.get_width())
+    y = Shooting_Star_rng.randint(0, screen.get_height())
+
+    dx = Shooting_Star_rng.uniform(-5, 5)
+    dy = Shooting_Star_rng.uniform(-5, 5)
+
+    shoot_length = Shooting_Star_rng.randint(50, 150)
+
+    for i in range(shoot_length):
+        try:
+            previous_color = screen.get_at((int(x), int(y)))
+        except IndexError:
+            break
+        star_list.append((x, y, previous_color))
+        x += dx
+        y += dy
+
+
+    for light in star_list:
+        trail = Shooting_Star_rng.randint(1, 2)
+        if trail == 1:
+            color = (255, 255, 255)
+        else:
+            color = (210, 230, 255)
+        pygame.draw.circle(screen, color, (int(light[0]), int(light[1])), 1)
+        pygame.display.flip()
+        pygame.time.delay(1)
+
+    for light in star_list:
+        pygame.draw.circle(screen, light[2], (int(light[0]), int(light[1])), 1)
+        pygame.display.flip()
+        pygame.time.delay(1)
+
+
 def CosmosGenerator(Cosmos_rng):
     WHITE = (255, 255, 255)
     YELLOW_WHITE = (255, 234, 202)
@@ -25,11 +62,11 @@ def CosmosGenerator(Cosmos_rng):
     star_rate = star_density
 
     star_scope = int(1000 - (star_density - 1) * 999 / 99)
-    star_density = (screen_info.current_w * screen_info.current_h) // star_scope
+    star_density = (screen.get_width() * screen.get_height()) // star_scope
 
     for starborn in range(star_density):
-        x = Cosmos_rng.randint(0, screen_info.current_w)
-        y = Cosmos_rng.randint(0, screen_info.current_h)
+        x = Cosmos_rng.randint(0, screen.get_width())
+        y = Cosmos_rng.randint(0, screen.get_height())
 
         temperature = Cosmos_rng.randint(1, 7)
         if temperature == 1:
@@ -111,7 +148,7 @@ def NebulaGenerator(center, nebula_radius, clouds, red_range = (0, 255), green_r
 
 def SpiralGalaxyGenerator(max_radius = 1000, turns = 3 * math.pi, bigtheta = random.uniform(0, math.pi * 2), density_variation = 3, x_squish = 1, y_squish = .3, bsub = .02, red_range = (0, 255), green_range = (0, 255), blue_range = (0, 255), gas_alpha = 7, center = (-1, -1)):
     if center == (-1, -1):
-        center = (screen_info.current_w // 2, screen_info.current_h // 2)
+        center = (screen.get_width() // 2, screen.get_height() // 2)
 
     a = 1
     b = 1 # spiral intensity
@@ -235,7 +272,7 @@ def SpiralGalaxyGenerator(max_radius = 1000, turns = 3 * math.pi, bigtheta = ran
 
                 pygame.draw.circle(gas_surface, gas_color, (gas_radius, gas_radius), gas_radius)
                 screen.blit(gas_surface, (rotatedx - gas_radius + Galaxy_rng.randint(-1 * gas_variation, gas_variation), rotatedy - gas_radius + Galaxy_rng.randint(-1 * gas_variation, gas_variation)))
-            
+
             pygame.draw.circle(screen, color, (rotatedx, rotatedy), star_radius)
 
 
@@ -330,7 +367,7 @@ def Universe_Generator(Universe_Seed = random.randint(0, 10000), debug = 0):
 
 
         gas_alpha = Galaxy_rng.randint(3, 25)
-        center = (Galaxy_rng.randint(0, screen_info.current_w), Galaxy_rng.randint(0, screen_info.current_h))
+        center = (Galaxy_rng.randint(0, screen.get_width()), Galaxy_rng.randint(0, screen.get_height()))
 
         SpiralGalaxyGenerator(max_radius, # max_radius
                               turns, # turns
@@ -350,8 +387,13 @@ def Universe_Generator(Universe_Seed = random.randint(0, 10000), debug = 0):
         if greed:
             break
 
+
+    Shooting_Star_rng = random.Random(Universe_Seed + 4)
     while True:
         exit_check()
+        shoot = Shooting_Star_rng.randint(1, 1000000)
+        if shoot == 7:
+            Shooting_Star(Shooting_Star_rng)
 
 
 
@@ -366,5 +408,5 @@ if __name__ == "__main__":
     clock.tick(60)
     screen.fill((0, 0, 0))
 
-    Universe_Generator(random.randint(0,1000000000000), 1)
-    # Universe_Generator(100000000000000000)
+    # Universe_Generator(random.randint(0,1000000000000), 1)
+    # Universe_Generator(11123123, 1)
