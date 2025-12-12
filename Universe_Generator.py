@@ -225,8 +225,17 @@ def SpiralGalaxyGenerator(max_radius = 1000, turns = 3 * math.pi, bigtheta = ran
                 color = CORE_WHITE
 
             if r <= -core_constant: #gas
-                screen.blit(gas_surface, (rotatedx - gas_radius + Galaxy_rng.randint(-1 * gas_variation, gas_variation), rotatedy - gas_radius + Galaxy_rng.randint(-1 * gas_variation, gas_variation)))
+                gas_surface.fill((0, 0, 0, 0))
 
+                gas_color = (
+                    Galaxy_rng.randint(red_range[0], red_range[1]),
+                    Galaxy_rng.randint(green_range[0], green_range[1]),
+                    Galaxy_rng.randint(blue_range[0], blue_range[1])
+                )
+
+                pygame.draw.circle(gas_surface, gas_color, (gas_radius, gas_radius), gas_radius)
+                screen.blit(gas_surface, (rotatedx - gas_radius + Galaxy_rng.randint(-1 * gas_variation, gas_variation), rotatedy - gas_radius + Galaxy_rng.randint(-1 * gas_variation, gas_variation)))
+            
             pygame.draw.circle(screen, color, (rotatedx, rotatedy), star_radius)
 
 
