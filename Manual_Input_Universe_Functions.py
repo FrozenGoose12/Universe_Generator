@@ -5,7 +5,7 @@
 
 import math, pygame, sys, random
 
-def exit():
+def exit_check():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -22,7 +22,8 @@ def CosmosGenerator(star_density):
     ASTRAL_BLUE = (90, 140, 255)
     YELLOW_ORANGE = (255, 210, 120)
 
-    star_scope = int(1000 - (star_density - 1) * 999/99)
+
+    star_scope = int(1000 - (star_density - 1) * 999 / 99)
     star_density = (screen_info.current_w * screen_info.current_h) // star_scope
 
     for starborn in range(star_density):
@@ -80,12 +81,6 @@ def NebulaGenerator(center, nebula_radius, clouds, red_range = (0, 255), green_r
             random.randint(blue_range[0], blue_range[1])
         )
 
-        # color = (
-        #     random.randint(140, 200),
-        #     random.randint(60, 250),
-        #     random.randint(180, 250)
-        # )
-
         radius = random.randint(10, 35)
 
         cloud_list.append([x, y, radius, color])
@@ -113,7 +108,7 @@ def NebulaGenerator(center, nebula_radius, clouds, red_range = (0, 255), green_r
     pygame.display.flip()
 
 
-def SpiralGalaxyGenerator(max_radius = 1000, turns = 3 * math.pi, bigtheta = random.uniform(0, math.pi * 2), density_variation = 3, x_squish = 1, y_squish = 1, bsub = .02, gas_color = (67, 122, 224), gas_alpha = 7, center = (-1, -1)):
+def SpiralGalaxyGenerator(max_radius = 1000, turns = 3 * math.pi, bigtheta = random.uniform(0, math.pi * 2), density_variation = 3, x_squish = 1, y_squish = 1, bsub = .02, red_range = (0, 255), blue_range = (0, 255), green_range = (0, 255), gas_alpha = 7, center = (-1, -1)):
     if center == (-1, -1):
         center = (screen_info.current_w // 2, screen_info.current_h // 2)
 
@@ -153,7 +148,7 @@ def SpiralGalaxyGenerator(max_radius = 1000, turns = 3 * math.pi, bigtheta = ran
     gas_surface = pygame.Surface((max_radius//10, max_radius//10), pygame.SRCALPHA)
     gas_radius = (max_radius//10)//2
     gas_surface.set_alpha(gas_alpha)
-    pygame.draw.circle(gas_surface, gas_color, (gas_radius, gas_radius), gas_radius)
+
 
 
     primary_color = 230 + (core_constant / 100 * 25)
@@ -164,14 +159,14 @@ def SpiralGalaxyGenerator(max_radius = 1000, turns = 3 * math.pi, bigtheta = ran
 
     while True:
         while theta < turns:
-            exit()
+            exit_check()
             c = random.randint(1, 10)
             if c >= 5:
                 color = (primary_color, primary_color, primary_color)
             elif c >= 3:
                 color = COOLDUST
             else:
-                color = PURPLE_WHITE = (235, 220, 255)
+                color = (235, 220, 255)
 
 
 
@@ -201,7 +196,18 @@ def SpiralGalaxyGenerator(max_radius = 1000, turns = 3 * math.pi, bigtheta = ran
                 color = CORE_WHITE
 
             if r >= core_constant: #gas
-                screen.blit(gas_surface, (rotatedx - gas_radius + random.randint(-1 * gas_variation, gas_variation), rotatedy - gas_radius + random.randint(-1 * gas_variation, gas_variation)))
+                gas_surface.fill((0, 0, 0, 0))
+
+                gas_color = (
+                    random.randint(red_range[0], red_range[1]),
+                    random.randint(green_range[0], green_range[1]),
+                    random.randint(blue_range[0], blue_range[1])
+                )
+
+                pygame.draw.circle(gas_surface, gas_color, (gas_radius, gas_radius), gas_radius)
+                screen.blit(gas_surface, (rotatedx - gas_radius + random.randint(-1 * gas_variation, gas_variation),
+                                          rotatedy - gas_radius + random.randint(-1 * gas_variation,
+                                                                                     gas_variation)))
 
             pygame.draw.circle(screen, color, (rotatedx, rotatedy), star_radius)
 
@@ -225,7 +231,18 @@ def SpiralGalaxyGenerator(max_radius = 1000, turns = 3 * math.pi, bigtheta = ran
                 color = CORE_WHITE
 
             if r <= -core_constant: #gas
-                screen.blit(gas_surface, (rotatedx - gas_radius + random.randint(-1 * gas_variation, gas_variation), rotatedy - gas_radius + random.randint(-1 * gas_variation, gas_variation)))
+                gas_surface.fill((0, 0, 0, 0))
+
+                gas_color = (
+                    random.randint(red_range[0], red_range[1]),
+                    random.randint(green_range[0], green_range[1]),
+                    random.randint(blue_range[0], blue_range[1])
+                )
+
+                pygame.draw.circle(gas_surface, gas_color, (gas_radius, gas_radius), gas_radius)
+                screen.blit(gas_surface, (rotatedx - gas_radius + random.randint(-1 * gas_variation, gas_variation),
+                                          rotatedy - gas_radius + random.randint(-1 * gas_variation,
+                                                                                 gas_variation)))
 
             pygame.draw.circle(screen, color, (rotatedx, rotatedy), star_radius)
 
@@ -241,7 +258,8 @@ def SpiralGalaxyGenerator(max_radius = 1000, turns = 3 * math.pi, bigtheta = ran
         else:
             break
 
-
+def gc():
+    return random.randint(0, 130)
 
 pygame.init()
 # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -255,24 +273,35 @@ screen.fill((0, 0, 0))
 
 if __name__ == "__main__":
     CosmosGenerator(60)
-    NebulaGenerator((500, 300), 300, 400, (0, 200), (0, 100), (0, 255), 20)
+    NebulaGenerator((500, 300), 300, 300, (100, 200), (0, 100), (0, 255), 20)
     NebulaGenerator((1000, 600), 600, 1000, (0, 100), (0, 10), (0, 15))
     NebulaGenerator((20, 200), 100, 100, (0, 50), (0, 60), (0, 250), 10)
     NebulaGenerator((1299, 100), 400, 670, (0, 250), (0, 67), (0, 220), 30)
     NebulaGenerator((500, 400), 200, 300, (0, 75), (0, 86), (0, 103), 50)
 
-    SpiralGalaxyGenerator(200, 3 * math.pi, random.uniform(0, math.pi * 2), 3, 1, 1, .02, (180, 160, 255), 10, (1000,500))
-    SpiralGalaxyGenerator(100, 3 * math.pi, random.uniform(0, math.pi * 2), 5, 1, .4, .02, (210, 230, 255), 15,  (111,340))
-    SpiralGalaxyGenerator(30, 2 * math.pi, random.uniform(0, math.pi * 2), 2, 1, .05, .02, (255, 220, 180), 20, (700,500))
+    # SpiralGalaxyGenerator(30, 2.2 * math.pi, random.uniform(0, math.pi * 2), 3, 1, 1, .02, (gc, gc + 125), (gc, gc + 125), (gc, gc + 125),  10, (1000,500))
+    # SpiralGalaxyGenerator(100, 3 * math.pi, random.uniform(0, math.pi * 2), 5, 1, .4, .02, (gc, gc + 125), (gc, gc + 125), (gc, gc + 125),  15,  (111,340))
+    # SpiralGalaxyGenerator(30, 2 * math.pi, random.uniform(0, math.pi * 2), 2, 1, .05, .02, (gc, gc + 125), (gc, gc + 125), (gc, gc + 125),  20, (700,500))
+    # SpiralGalaxyGenerator(200, 3 * math.pi, 1 , 2, 1, .2, .02, (gc, gc + 125), (gc, gc + 125), (gc, gc + 125),  2, (800,200))
+    gcR = random.randint(0, 130)
+    gcG = random.randint(0, 130)
+    gcB = random.randint(0, 130)
+    SpiralGalaxyGenerator(400, # maximum radius in pixels
+                          4 * math.pi, # turns
+                          random.uniform(0, 2 * math.pi), # bigtheta (rotates entire galaxy)
+                          3, # density variation
+                          1, .3, # x and y squish (p and q)
+                          .02, # b subtraction increments
+                          (gcR, gcR + 125),(gcG, gcG + 125), (gcB, gcB + 125), #RGB random color ranges
+                          10, # gas_alpha
+                          (450, 400)) # center
 
-
-    SpiralGalaxyGenerator(400, 4 * math.pi, random.uniform(0, 2 * math.pi) , 3, 1, .3, .02, (70, 10, 200), 10, (450, 400))
-    SpiralGalaxyGenerator(200, 3 * math.pi, 1 , 2, 1, .2, .02, (170, 102, 240), 2, (800,200))
-    # #bigger radius needs bigger turns
+    # bigger radius needs bigger turns
     # bigtheta recommendation = random.uniform(0, math.pi * 2)
 
     while True:
-        exit()
+        exit_check()
+
 
 
 
