@@ -473,7 +473,7 @@ def Universe_Generator(Universe_Seed = random.randint(0, 10000), debug = 0):
     if not supermassive:
         global Galaxy_rng
         Galaxy_rng = random.Random(Universe_Seed + 3) # pre determined seemingly random lists (RNG)
-        for galaxy in range(Galaxy_rng.randint(1, 50)):
+        for galaxy in range(Galaxy_rng.randint(1, 5)):
             giga_galaxy = Galaxy_rng.randint(0, 10)
             if giga_galaxy == 7:
                 max_radius = Galaxy_rng.randint(480, 1000)
