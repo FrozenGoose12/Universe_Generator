@@ -3,8 +3,6 @@
 # and educational purposes only. Commercial use is strictly prohibited
 # without written permission from the author.
 
-import math, pygame, sys, random
-
 def exit_check():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -475,7 +473,7 @@ def Universe_Generator(Universe_Seed = random.randint(0, 10000), debug = 0):
     if not supermassive:
         global Galaxy_rng
         Galaxy_rng = random.Random(Universe_Seed + 3) # pre determined seemingly random lists (RNG)
-        for galaxy in range(Galaxy_rng.randint(1, 5)):
+        for galaxy in range(Galaxy_rng.randint(1, 50)):
             giga_galaxy = Galaxy_rng.randint(0, 10)
             if giga_galaxy == 7:
                 max_radius = Galaxy_rng.randint(480, 1000)
@@ -499,33 +497,59 @@ def Universe_Generator(Universe_Seed = random.randint(0, 10000), debug = 0):
             q = Galaxy_rng.uniform(.1, 2)
             bsub = .02
 
-            galaxy_color = Galaxy_rng.randint(1, 5)
+            galaxy_color = Galaxy_rng.randint(1, 7)
             if galaxy_color == 1: # bluish
-                red_range = (0, 100)
-                green_range = (40, 120)
-                blue_range = (120, 230)
-                gas_alpha = Galaxy_rng.randint(3, 10)
+                red_range = (0, 140)
+                green_range = (40, 140)
+                blue_range = (120, 255)
+                gas_alpha = Galaxy_rng.randint(5, 12)
             elif galaxy_color == 2: # magenta
-                red_range = (120, 200)
+                red_range = (120, 180)
                 green_range = (0, 80)
                 blue_range = (150, 255)
-                gas_alpha = Galaxy_rng.randint(3, 13)
+                gas_alpha = Galaxy_rng.randint(7, 13)
             elif galaxy_color == 3: # tealish
                 red_range = (0, 180)
                 green_range = (120, 255)
                 blue_range = (150, 255)
                 gas_alpha = Galaxy_rng.randint(3, 10)
             elif galaxy_color == 4: # yellowish orange
-                red_range = (200, 255)
-                green_range = (150, 220)
-                blue_range = (120, 200)
-                gas_alpha = Galaxy_rng.randint(1, 5)
+                red_range = (180, 230)
+                green_range = (110, 160)
+                blue_range = (40, 90)
+                gas_alpha = Galaxy_rng.randint(5, 10)
             elif galaxy_color == 5: # warm dust
                 red_range = (245, 255)
                 green_range = (215, 225)
                 blue_range = (175, 185)
                 gas_alpha = Galaxy_rng.randint(2, 5)
+            elif galaxy_color == 6: # pinkish
+                red_range = (200, 255)
+                green_range = (120, 200)
+                blue_range = (120, 200)
+                gas_alpha = Galaxy_rng.randint(4, 10)
+            elif galaxy_color == 7:
+                red_range = (40, 120)
+                green_range = (20, 100)
+                blue_range = (120, 255)
+                gas_alpha = Galaxy_rng.randint(10, 15)
 
+
+            match galaxy_color:
+                case 1:
+                    GC = "BLUISH"
+                case 2:
+                    GC = "MAGENTA"
+                case 3:
+                    GC = "TEALISH"
+                case 4:
+                    GC = "YELLOWISH ORANGE"
+                case 5:
+                    GC = "WARM DUST"
+                case 6:
+                    GC = "PINKISH"
+                case 7:
+                    GC = "COSMIC"
 
             center = (Galaxy_rng.randint(0, screen.get_width()), Galaxy_rng.randint(0, screen.get_height()))
 
@@ -542,7 +566,7 @@ def Universe_Generator(Universe_Seed = random.randint(0, 10000), debug = 0):
             if debug == 1:
                 print(f"GALAXY NUMBER: {galaxy+1}\nMAX_RADIUS: {max_radius}\nTURNS: {turns}\nBIG_THETA: {bigtheta}\nDENSITY_VARIATION: {density_variation}\n"
                   f"XY SQUISH: {p}, {q}\nB_INCREMENT: {bsub}\n"
-                  f"GAS_COLORS and GAS_ALPHA: ({red_range}, {green_range}, {blue_range}), {gas_alpha}\nGAS CENTER: {center}\nGREED: {greed}\n")
+                  f"GAS_COLORS and GAS_ALPHA: ({red_range}, {green_range}, {blue_range}), {gas_alpha}\nAPPEARANCE: {GC}\nGAS CENTER: {center}\nGREED: {greed}\n")
 
             if greed:
                 break
@@ -555,9 +579,8 @@ def Universe_Generator(Universe_Seed = random.randint(0, 10000), debug = 0):
         exit_check()
         shoot = Shooting_Star_rng.randint(1, 5000000)
         if shoot == 7:
-            print("shot")
             Shooting_Star(Shooting_Star_rng)
-
+        
 
 
 
