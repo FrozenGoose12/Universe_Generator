@@ -540,11 +540,12 @@ def Universe_Generator(Universe_Seed = random.randint(0, 10000), debug = 0):
 
     Shooting_Star_rng = random.Random(Universe_Seed + 4) # pre determined seemingly random lists (RNG)
     while True:
+        clock.tick(60)
         exit_check()
         shoot = Shooting_Star_rng.randint(1, 5000000)
         if shoot == 7:
             Shooting_Star(Shooting_Star_rng)
-
+    
 
 
 if __name__ == "__main__":
@@ -558,13 +559,12 @@ if __name__ == "__main__":
     #         continue
 
     pygame.init()
-    # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    screen = pygame.display.set_mode((0, 0), pygame.NOFRAME) #Borderless Fullscreen (for non borderless use pygame.FULLSCREEN)
     screen_info = pygame.display.Info()
-    screen = pygame.display.set_mode((screen_info.current_w - 10, screen_info.current_h - 10)) # windowed
+    # screen = pygame.display.set_mode((screen_info.current_w - 20, screen_info.current_h - 20)) # windowed
 
     pygame.display.set_caption("Galaxy Generator")
     clock = pygame.time.Clock()
-    clock.tick(60)
     screen.fill((0, 0, 0))
 
     # if seed == "":
@@ -572,7 +572,7 @@ if __name__ == "__main__":
     # else:
     #     Universe_Generator(seed, 1)
 
-
-    # giga seed: 114329036248
+    
     Universe_Generator(random.randint(0, 1000000000000), 1)
     # Universe_Generator(0)
+    
