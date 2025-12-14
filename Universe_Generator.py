@@ -208,7 +208,7 @@ def BlackHoleGenerator(bh_radius, rotation, center):
             rotatedy = center[1] - (math.sin(bigtheta) * x + (math.cos(bigtheta) * y))
 
             pygame.draw.circle(screen, color, (rotatedx, rotatedy), fr_width)
-            theta += .01
+            theta += .001
         pygame.display.flip()
 
         size -= 1
