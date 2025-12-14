@@ -15,28 +15,40 @@ def exit_check():
             sys.exit()
 
 def Shooting_Star(Shooting_Star_rng):
-    color = (210, 230, 255)
+    star_list = []
+
     x = Shooting_Star_rng.randint(0, screen.get_width())
     y = Shooting_Star_rng.randint(0, screen.get_height())
 
     dx = Shooting_Star_rng.uniform(-5, 5)
     dy = Shooting_Star_rng.uniform(-5, 5)
 
-    shoot_length = Shooting_Star_rng.randint(1000, 1500)
+    shoot_length = Shooting_Star_rng.randint(50, 150)
 
     for i in range(shoot_length):
         try:
             previous_color = screen.get_at((int(x), int(y)))
         except IndexError:
             break
-
-        pygame.draw.circle(screen, color, (int(x), int(y)), 1)
-        pygame.display.flip()
-        pygame.time.delay(3)
-
-        pygame.draw.circle(screen, previous_color, (int(x), int(y)), 1)
+        star_list.append((x, y, previous_color))
         x += dx
         y += dy
+
+
+    for light in star_list:
+        trail = Shooting_Star_rng.randint(1, 2)
+        if trail == 1:
+            color = (255, 255, 255)
+        else:
+            color = (210, 230, 255)
+        pygame.draw.circle(screen, color, (int(light[0]), int(light[1])), 1)
+        pygame.display.flip()
+        pygame.time.delay(1)
+
+    for light in star_list:
+        pygame.draw.circle(screen, light[2], (int(light[0]), int(light[1])), 1)
+        pygame.display.flip()
+        pygame.time.delay(1)
 
 def CosmosGenerator(Cosmos_rng):
     WHITE = (255, 255, 255)
@@ -540,12 +552,13 @@ def Universe_Generator(Universe_Seed = random.randint(0, 10000), debug = 0):
 
     Shooting_Star_rng = random.Random(Universe_Seed + 4) # pre determined seemingly random lists (RNG)
     while True:
-        clock.tick(60)
         exit_check()
         shoot = Shooting_Star_rng.randint(1, 5000000)
         if shoot == 7:
+            print("shot")
             Shooting_Star(Shooting_Star_rng)
-    
+
+
 
 
 if __name__ == "__main__":
@@ -559,12 +572,13 @@ if __name__ == "__main__":
     #         continue
 
     pygame.init()
-    screen = pygame.display.set_mode((0, 0), pygame.NOFRAME) #Borderless Fullscreen (for non borderless use pygame.FULLSCREEN)
+    screen = pygame.display.set_mode((0, 0), pygame.NOFRAME)
     screen_info = pygame.display.Info()
     # screen = pygame.display.set_mode((screen_info.current_w - 20, screen_info.current_h - 20)) # windowed
 
     pygame.display.set_caption("Galaxy Generator")
     clock = pygame.time.Clock()
+    clock.tick(60)
     screen.fill((0, 0, 0))
 
     # if seed == "":
@@ -572,7 +586,5 @@ if __name__ == "__main__":
     # else:
     #     Universe_Generator(seed, 1)
 
-    
     Universe_Generator(random.randint(0, 1000000000000), 1)
     # Universe_Generator(0)
-    
