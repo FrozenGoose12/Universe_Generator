@@ -19,7 +19,7 @@ def exit_check():
             pygame.quit()
             sys.exit()
 
-def BlackHoleGenerator(bh_radius, rotation, center, glow_alpha, l1 = (234, 228, 240), l2 = (221, 212, 222), l3 = (231, 224, 236), l4 = (193, 172, 175)):
+def BlackHoleGenerator(bh_radius, rotation, center, glow_alpha, l1 = (234, 228, 240), l2 = (221, 212, 222), l3 = (231, 224, 236), l4 = (193, 172, 175), l0 = (234, 228, 240)):
     size = bh_radius
     size2 = bh_radius
     bigtheta = rotation
@@ -30,8 +30,6 @@ def BlackHoleGenerator(bh_radius, rotation, center, glow_alpha, l1 = (234, 228, 
     # l2 = (221, 212, 222)
     # l3 = (231, 224, 236)
     # l4 = (193, 172, 175)
-
-
 
     if bh_radius >= 200:
         hole_r = int(size2 * 2.15)
@@ -53,6 +51,7 @@ def BlackHoleGenerator(bh_radius, rotation, center, glow_alpha, l1 = (234, 228, 
     # glow
     glow_diameter = 15 * bh_radius
     for i in range(30):
+        exit_check()
         black_hole_glow_surface = pygame.Surface((glow_diameter, glow_diameter), pygame.SRCALPHA)
         black_hole_glow_surface.set_alpha(glow_alpha)
         pygame.draw.circle(black_hole_glow_surface, l4, (glow_diameter // 2, glow_diameter // 2), glow_diameter // 2)
@@ -64,6 +63,7 @@ def BlackHoleGenerator(bh_radius, rotation, center, glow_alpha, l1 = (234, 228, 
     # outer top
     theta = 0
     for i in range(size):
+        exit_check()
         if i > size * .5:
             color = l1
         elif i > size * .3:
@@ -94,11 +94,12 @@ def BlackHoleGenerator(bh_radius, rotation, center, glow_alpha, l1 = (234, 228, 
     # inner hole
 
     pygame.draw.circle(screen, (0, 0, 0), (center[0], center[1]), hole_r, 0) # black hole
-    pygame.draw.circle(screen, (255, 240, 240), (center[0]+1, center[1]-1), hole_r - (hole_r // 8), 1) # inner lense
+    pygame.draw.circle(screen, l0, (center[0]+1, center[1]-1), hole_r - (hole_r // 8), 1) # inner lense
 
     warp = hole_r // 4
     arc_w = 1
     for disk in range(warp): # circular disks
+        exit_check()
         if disk > warp * .5:
             color = l4
             rect = pygame.Rect(center[0] - hole_r, center[1] - hole_r, hole_r * 2, hole_r * 2)
@@ -124,6 +125,7 @@ def BlackHoleGenerator(bh_radius, rotation, center, glow_alpha, l1 = (234, 228, 
 
     # mid ring
     for i in range(size2 - int(size2//3.25)):
+        exit_check()
         if i > size2  * .5:
             color = l1
         elif i > size2  * .3:
@@ -160,6 +162,7 @@ while True:
     l3 = (141, 14, 133)
     l2 = (215, 50, 213)
     l1 = (240, 61, 172)
+    l0 = (240, 61, 172) # inner hole ring
 
-    BlackHoleGenerator(67, random.uniform(0, math.pi), (screen.get_width() // 2, screen.get_height() // 2), 10, l1, l2, l3, l4)
+    BlackHoleGenerator(67, random.uniform(-math.pi/2, math.pi/2), (screen.get_width() // 2, screen.get_height() // 2), 10, l1, l2, l3, l4, l0)
     # BlackHoleGenerator(40, .5, (1400, 800))
