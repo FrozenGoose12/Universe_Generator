@@ -3,6 +3,8 @@
 # and educational purposes only. Commercial use is strictly prohibited
 # without written permission from the author.
 
+import math, pygame, sys, random
+
 def exit_check():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
